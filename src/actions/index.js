@@ -19,11 +19,9 @@ export function fetchWeather(city) {
 	};
 }
 
-export function sortWeather(data) {
-	// console.log('data: ' + data);
-
+export function sortWeather(sort, order) {
 	return {
 		type: SORT_WEATHER,
-		payload: data
+		payload: { sort, order }
 	};
 }

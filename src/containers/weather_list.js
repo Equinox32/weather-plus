@@ -8,54 +8,128 @@ import { sortWeather } from '../actions';
 
 class WeatherList extends Component {
 	renderWeather(cityData) {
-		const name = cityData.city.name;
-		var temperatures = [];
-		var pressures = [];
-		var humiditys = [];
-		cityData.list.forEach(data => {
-			temperatures = [...temperatures, data.main.temp];
-			pressures = [...pressures, data.main.pressure];
-			humiditys = [...humiditys, data.main.humidity];
-		});
-		const { lon, lat } = cityData.city.coord;
 		return (
-			<tr key={name}>
+			<tr key={cityData.name}>
 				<td>
-					<GoogleMaps lon={lon} lat={lat} />{' '}
+					<GoogleMaps lon={cityData.lon} lat={cityData.lat} />{' '}
 				</td>{' '}
 				<td>
-					<Chart data={temperatures} color="red" units="Kelvin" />
+					<Chart
+						data={cityData.temperatures}
+						avg={cityData.averageTemperature}
+						color="red"
+						units="Kelvin"
+					/>
 				</td>
 				<td>
-					<Chart data={pressures} color="blue" units="hPa" />
+					<Chart
+						data={cityData.pressures}
+						avg={cityData.averagePressure}
+						color="blue"
+						units="hPa"
+					/>
 				</td>
 				<td>
-					<Chart data={humiditys} color="green" units="%" />
+					<Chart
+						data={cityData.humiditys}
+						avg={cityData.averageHumidity}
+						color="green"
+						units="%"
+					/>
 				</td>
 			</tr>
 		);
 	}
-
 	render() {
+		// This is the function for alternating the arrows and updating
+		// sort_column.order
+		// TODO: Make this much better code......
+		let cityOrderClass = '';
+		let cityOrder = '';
+		let tempOrderClass = '';
+		let tempOrder = '';
+		let presOrderClass = '';
+		let presOrder = '';
+		let humnOrderClass = '';
+		let humnOrder = '';
+		if (this.props.sort_column.order) {
+			if (this.props.sort_column.sort === 'City') {
+				if (this.props.sort_column.order === 'asc') {
+					cityOrderClass = 'oi oi-chevron-top';
+					cityOrder = 'desc';
+				} else if (this.props.sort_column.order === 'desc') {
+					cityOrderClass = 'oi oi-chevron-bottom';
+					cityOrder = 'asc';
+				}
+			} else if (this.props.sort_column.sort === 'Temperature (Kelvin)') {
+				if (this.props.sort_column.order === 'asc') {
+					tempOrderClass = 'oi oi-chevron-top';
+					tempOrder = 'desc';
+				} else if (this.props.sort_column.order === 'desc') {
+					tempOrderClass = 'oi oi-chevron-bottom';
+					tempOrder = 'asc';
+				}
+			} else if (this.props.sort_column.sort === 'Pressure (hPa)') {
+				if (this.props.sort_column.order === 'asc') {
+					presOrderClass = 'oi oi-chevron-top';
+					presOrder = 'desc';
+				} else if (this.props.sort_column.order === 'desc') {
+					presOrderClass = 'oi oi-chevron-bottom';
+					presOrder = 'asc';
+				}
+			} else if (this.props.sort_column.sort === 'Humidity (%)') {
+				if (this.props.sort_column.order === 'asc') {
+					humnOrderClass = 'oi oi-chevron-top';
+					humnOrder = 'desc';
+				} else if (this.props.sort_column.order === 'desc') {
+					humnOrderClass = 'oi oi-chevron-bottom';
+					humnOrder = 'asc';
+				}
+			}
+		}
 		return (
 			<table className="table table-hover">
 				<thead>
 					<tr>
 						<SortColumn
 							name="City"
-							onClick={() => this.props.sortWeather()}
+							order={cityOrderClass || ''}
+							onClick={() =>
+								this.props.sortWeather(
+									'City',
+									cityOrder || 'asc'
+								)
+							}
 						/>
 						<SortColumn
 							name="Temperature (Kelvin)"
-							onClick={() => this.props.sortWeather('test')}
+							order={tempOrderClass || ''}
+							onClick={() =>
+								this.props.sortWeather(
+									'Temperature (Kelvin)',
+									tempOrder || 'asc'
+								)
+							}
 						/>
 						<SortColumn
 							name="Pressure (hPa)"
-							onClick={() => this.props.sortWeather('test')}
+							order={presOrderClass || ''}
+							onClick={() =>
+								this.props.sortWeather(
+									'Pressure (hPa)',
+									presOrder || 'asc'
+								)
+							}
 						/>
 						<SortColumn
 							name="Humidity (%)"
-							onClick={() => this.props.sortWeather('test')}
+							order={humnOrderClass || ''}
+							onClick={() =>
+								this.props.sortWeather(
+									'Humidity (%)',
+									humnOrder || 'asc'
+								)
+							}
 						/>
 					</tr>
 				</thead>
@@ -65,12 +139,16 @@ class WeatherList extends Component {
 	}
 }
 //	ES6	syntax	for	the	following
-//	function	mapStateToProps(state){
-//		return	{	weather:state.weather	};
-//	}
-function mapStateToProps({ weather }) {
-	return { weather };
+function mapStateToProps(state) {
+	return { sort_column: state.sort_column, weather: state.weather };
 }
+// function mapStateToProps({ weather }, { sort_column }) {
+// 	return { weather }, { sort_column };
+// }
+
+// function mapStateToProps({ weather }) {
+// 	return { weather };
+// }
 
 function mapDispatchToProps(dispatch) {
 	return bindActionCreators(
