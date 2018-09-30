@@ -44,46 +44,54 @@ class WeatherList extends Component {
 		// This is the function for alternating the arrows and updating
 		// sort_column.order
 		// TODO: Make this much better code......
-		let cityOrderClass = '';
-		let cityOrder = '';
-		let tempOrderClass = '';
-		let tempOrder = '';
-		let presOrderClass = '';
-		let presOrder = '';
-		let humnOrderClass = '';
-		let humnOrder = '';
+		// let cityOrderClass = '';
+		// let cityOrder = '';
+		// let tempOrderClass = '';
+		// let tempOrder = '';
+		// let presOrderClass = '';
+		// let presOrder = '';
+		// let humnOrderClass = '';
+		// let humnOrder = '';
+		let city = { name: 'City', orderClass: '', order: '' };
+		let temp = { name: 'Temperature (Kelvin)', orderClass: '', order: '' };
+		let pres = { name: 'Pressure (hPa)', orderClass: '', order: '' };
+		let humn = { name: 'Humidity (%)', orderClass: '', order: '' };
 		if (this.props.sort_column.order) {
 			if (this.props.sort_column.sort === 'City') {
+				city.name = <u>City</u>;
 				if (this.props.sort_column.order === 'asc') {
-					cityOrderClass = 'oi oi-chevron-top';
-					cityOrder = 'desc';
+					city.orderClass = 'oi oi-chevron-top';
+					city.order = 'desc';
 				} else if (this.props.sort_column.order === 'desc') {
-					cityOrderClass = 'oi oi-chevron-bottom';
-					cityOrder = 'asc';
+					city.orderClass = 'oi oi-chevron-bottom';
+					city.order = 'asc';
 				}
 			} else if (this.props.sort_column.sort === 'Temperature (Kelvin)') {
+				temp.name = <u>Temperature (Kelvin)</u>;
 				if (this.props.sort_column.order === 'asc') {
-					tempOrderClass = 'oi oi-chevron-top';
-					tempOrder = 'desc';
+					temp.orderClass = 'oi oi-chevron-top';
+					temp.order = 'desc';
 				} else if (this.props.sort_column.order === 'desc') {
-					tempOrderClass = 'oi oi-chevron-bottom';
-					tempOrder = 'asc';
+					temp.orderClass = 'oi oi-chevron-bottom';
+					temp.order = 'asc';
 				}
 			} else if (this.props.sort_column.sort === 'Pressure (hPa)') {
+				pres.name = <u>Pressure (hPa)</u>;
 				if (this.props.sort_column.order === 'asc') {
-					presOrderClass = 'oi oi-chevron-top';
-					presOrder = 'desc';
+					pres.orderClass = 'oi oi-chevron-top';
+					pres.order = 'desc';
 				} else if (this.props.sort_column.order === 'desc') {
-					presOrderClass = 'oi oi-chevron-bottom';
-					presOrder = 'asc';
+					pres.orderClass = 'oi oi-chevron-bottom';
+					pres.order = 'asc';
 				}
 			} else if (this.props.sort_column.sort === 'Humidity (%)') {
+				humn.name = <u>Humidity (%)</u>;
 				if (this.props.sort_column.order === 'asc') {
-					humnOrderClass = 'oi oi-chevron-top';
-					humnOrder = 'desc';
+					humn.orderClass = 'oi oi-chevron-top';
+					humn.order = 'desc';
 				} else if (this.props.sort_column.order === 'desc') {
-					humnOrderClass = 'oi oi-chevron-bottom';
-					humnOrder = 'asc';
+					humn.orderClass = 'oi oi-chevron-bottom';
+					humn.order = 'asc';
 				}
 			}
 		}
@@ -92,42 +100,42 @@ class WeatherList extends Component {
 				<thead>
 					<tr>
 						<SortColumn
-							name="City"
-							order={cityOrderClass || ''}
+							name={city.name}
+							order={city.orderClass || ''}
 							onClick={() =>
 								this.props.sortWeather(
 									'City',
-									cityOrder || 'asc'
+									city.order || 'asc'
 								)
 							}
 						/>
 						<SortColumn
-							name="Temperature (Kelvin)"
-							order={tempOrderClass || ''}
+							name={temp.name}
+							order={temp.orderClass || ''}
 							onClick={() =>
 								this.props.sortWeather(
 									'Temperature (Kelvin)',
-									tempOrder || 'asc'
+									temp.order || 'asc'
 								)
 							}
 						/>
 						<SortColumn
-							name="Pressure (hPa)"
-							order={presOrderClass || ''}
+							name={pres.name}
+							order={pres.orderClass || ''}
 							onClick={() =>
 								this.props.sortWeather(
 									'Pressure (hPa)',
-									presOrder || 'asc'
+									pres.order || 'asc'
 								)
 							}
 						/>
 						<SortColumn
-							name="Humidity (%)"
-							order={humnOrderClass || ''}
+							name={humn.name}
+							order={humn.orderClass || ''}
 							onClick={() =>
 								this.props.sortWeather(
 									'Humidity (%)',
-									humnOrder || 'asc'
+									humn.order || 'asc'
 								)
 							}
 						/>
