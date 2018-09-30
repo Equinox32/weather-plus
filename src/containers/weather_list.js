@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import Chart from '../components/chart';
 import GoogleMaps from '../components/google_maps';
 import SortColumn from '../components/sort_column';
+import { bindActionCreators } from 'redux';
+import { sortWeather } from '../actions';
 
 class WeatherList extends Component {
 	renderWeather(cityData) {
@@ -39,14 +41,22 @@ class WeatherList extends Component {
 			<table className="table table-hover">
 				<thead>
 					<tr>
-						<SortColumn name="City" />
-						<SortColumn name="Temperature (Kelvin)" />
-						<SortColumn name="Pressure (hPa)" />
-						<SortColumn name="Humidity (%)" />
-						{/* <th>City</th>
-						<th>Temperature (Kelvin)</th>
-						<th>Pressure (hPa)</th>
-						<th>Humidity (%)</th> */}
+						<SortColumn
+							name="City"
+							onClick={() => this.props.sortWeather()}
+						/>
+						<SortColumn
+							name="Temperature (Kelvin)"
+							onClick={() => this.props.sortWeather('test')}
+						/>
+						<SortColumn
+							name="Pressure (hPa)"
+							onClick={() => this.props.sortWeather('test')}
+						/>
+						<SortColumn
+							name="Humidity (%)"
+							onClick={() => this.props.sortWeather('test')}
+						/>
 					</tr>
 				</thead>
 				<tbody>{this.props.weather.map(this.renderWeather)}</tbody>
@@ -61,4 +71,17 @@ class WeatherList extends Component {
 function mapStateToProps({ weather }) {
 	return { weather };
 }
-export default connect(mapStateToProps)(WeatherList);
+
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators(
+		{
+			sortWeather: sortWeather
+		},
+		dispatch
+	);
+}
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(WeatherList);

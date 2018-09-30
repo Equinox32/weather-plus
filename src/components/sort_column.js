@@ -2,9 +2,11 @@ import React from 'react';
 
 export default props => {
 	return (
-		<th>
-			{props.name}{' '}
-			<span className="oi oi-chevron-top" aria-hidden="true" />
+		<th onClick={props.onClick}>
+			<a>
+				{props.name}{' '}
+				<span className="oi oi-chevron-top" aria-hidden="true" />
+			</a>
 		</th>
 	);
 };
