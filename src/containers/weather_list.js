@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Chart from '../components/chart';
 import GoogleMaps from '../components/google_maps';
+import SortColumn from '../components/sort_column';
 
 class WeatherList extends Component {
 	renderWeather(cityData) {
@@ -38,10 +39,14 @@ class WeatherList extends Component {
 			<table className="table table-hover">
 				<thead>
 					<tr>
-						<th>City</th>
+						<SortColumn name="City" />
+						<SortColumn name="Temperature (Kelvin)" />
+						<SortColumn name="Pressure (hPa)" />
+						<SortColumn name="Humidity (%)" />
+						{/* <th>City</th>
 						<th>Temperature (Kelvin)</th>
 						<th>Pressure (hPa)</th>
-						<th>Humidity (%)</th>
+						<th>Humidity (%)</th> */}
 					</tr>
 				</thead>
 				<tbody>{this.props.weather.map(this.renderWeather)}</tbody>
